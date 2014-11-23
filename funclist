@@ -1,0 +1,12 @@
+_fix_fft: CODE, 29298 0 1932
+_main: CODE, 28080 0 1218
+_BusyADC: CODE, 27816 0 12
+___lmul: CODE, 27994 0 86
+_ConvertADC: CODE, 27802 0 4
+__initialization: CODE, 27844 0 24
+_ReadADC: CODE, 27806 0 10
+_Sinewave: MEDIUMCONST, 31231 0 1536
+_Delay10TCYx: CODE, 27828 0 16
+_OpenADC: CODE, 27916 0 78
+___wmul: CODE, 27878 0 38
+Total: 4954
