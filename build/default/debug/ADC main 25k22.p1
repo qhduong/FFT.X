@@ -4,6 +4,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISC `Vuc ~T0 @X0 0 e@3988 ]
 "7788
 [v _LATC `Vuc ~T0 @X0 0 e@3979 ]
+"140
+[v _ANSELC `Vuc ~T0 @X0 0 e@3898 ]
+"8373
+[s S506 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S506 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
+"8383
+[s S507 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S507 . RC0 RC1 RC2 RC3 RC4 RC5 RC6 RC7 ]
+"8372
+[u S505 `S506 1 `S507 1 ]
+[n S505 . . . ]
+"8394
+[v _TRISCbits `VS505 ~T0 @X0 0 e@3988 ]
 "15953
 [s S1012 :2 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 :1 `uc 1 ]
 [n S1012 . SCS HFIOFS OSTS IRCF IDLEN ]
@@ -28,7 +41,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _OSCTUNEbits `VS513 ~T0 @X0 0 e@3995 ]
 "2040 /Applications/microchip/xc8/v1.33/include/plib/adc.h
 [v _OpenADC `(v ~T0 @X0 0 ef3`uc`uc`uc ]
-"2016
+"9887 /Applications/microchip/xc8/v1.33/include/pic18f25k22.h
+[v _RCSTA1 `Vuc ~T0 @X0 0 e@4011 ]
+"10363
+[s S599 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S599 . TX9D TRMT BRGH SENDB SYNC TXEN TX9 CSRC ]
+"10373
+[s S600 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S600 . TX9D1 TRMT1 BRGH1 SENDB1 SYNC1 TXEN1 TX91 CSRC1 ]
+"10383
+[s S601 :6 `uc 1 :1 `uc 1 ]
+[n S601 . . TX8_9 ]
+"10387
+[s S602 :1 `uc 1 ]
+[n S602 . TXD8 ]
+"10362
+[u S598 `S599 1 `S600 1 `S601 1 `S602 1 ]
+[n S598 . . . . . ]
+"10391
+[v _TXSTA1bits `VS598 ~T0 @X0 0 e@4012 ]
+"8951
+[v _PIE1 `Vuc ~T0 @X0 0 e@3997 ]
+"214 /Applications/microchip/xc8/v1.33/include/plib/usart.h
+[v _Open1USART `(v ~T0 @X0 0 ef2`uc`ui ]
+"2016 /Applications/microchip/xc8/v1.33/include/plib/adc.h
 [v _ConvertADC `(v ~T0 @X0 0 ef ]
 "2014
 [v _BusyADC `(uc ~T0 @X0 0 ef ]
@@ -40,8 +76,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p i __delay ]
 "133 fft.h
 [v _fix_fft `(v ~T0 @X0 0 ef3`*s`*s`s ]
+"31 ADC main 25k22.c
+[v _sendIntArray `(v ~T0 @X0 0 ef2`*s`ui ]
 "19 /Applications/microchip/xc8/v1.33/include/plib/delays.h
 [v _Delay10TCYx `(v ~T0 @X0 0 ef1`uc ]
+"29 ADC main 25k22.c
+[v _sendChar `(v ~T0 @X0 0 ef1`uc ]
+"248 /Applications/microchip/xc8/v1.33/include/plib/usart.h
+[v _putrs1USART `(v ~T0 @X0 0 ef1`*Cuc ]
+"245
+[v _Write1USART `(v ~T0 @X0 0 ef1`uc ]
+"205 /Applications/microchip/xc8/v1.33/include/stdio.h
+[v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
 [; ;htc.h: 21: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 24: extern void __builtin_software_breakpoint(void);
 [; ;pic18f25k22.h: 47: extern volatile unsigned char ANSELA @ 0xF38;
@@ -8976,7 +9022,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "10 ADC main 25k22.c
 [p x WDTEN=OFF ]
 "11
-[p x FOSC=INTIO67 ]
+[p x FOSC=INTIO7 ]
 "12
 [p x PLLCFG=OFF ]
 "13
@@ -8991,93 +9037,134 @@ Version 3.2 HI-TECH Software Intermediate Code
 "19
 [v _realNumbers `s ~T0 @X0 -> 64 `i e ]
 [; ;ADC main 25k22.c: 19: short realNumbers[64];
-"24
+"25
+[v _input `uc ~T0 @X0 1 e ]
+[; ;ADC main 25k22.c: 25: char input;
+"26
+[v _i `i ~T0 @X0 1 e ]
+[; ;ADC main 25k22.c: 26: int i;
+"27
+[v _data `uc ~T0 @X0 -> 5 `i e ]
+[; ;ADC main 25k22.c: 27: char data[5];
+[; ;ADC main 25k22.c: 28: void sendString(char *);
+[; ;ADC main 25k22.c: 29: void sendChar(char);
+[; ;ADC main 25k22.c: 30: void sendCharArray(char *, unsigned int);
+[; ;ADC main 25k22.c: 31: void sendIntArray(short *, unsigned int);
+"35
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;ADC main 25k22.c: 24: void main(void) {
+[; ;ADC main 25k22.c: 35: void main(void) {
 [e :U _main ]
 [f ]
-"25
+"36
 [v _adc_value `ui ~T0 @X0 1 a ]
-[; ;ADC main 25k22.c: 25: unsigned int adc_value;
-[; ;ADC main 25k22.c: 26: TRISC = 0x00;
-"26
+[; ;ADC main 25k22.c: 36: unsigned int adc_value;
+[; ;ADC main 25k22.c: 37: TRISC = 0x00;
+"37
 [e = _TRISC -> -> 0 `i `uc ]
-[; ;ADC main 25k22.c: 27: LATC = 0x00;
-"27
-[e = _LATC -> -> 0 `i `uc ]
-[; ;ADC main 25k22.c: 28: OSCCONbits.IRCF = 0b111;
-"28
-[e = . . _OSCCONbits 0 3 -> -> 7 `i `uc ]
-[; ;ADC main 25k22.c: 29: OSCCONbits.SCS = 0b11;
-"29
-[e = . . _OSCCONbits 0 0 -> -> 3 `i `uc ]
-[; ;ADC main 25k22.c: 30: OSCTUNEbits.TUN = 0b01111;
-"30
-[e = . . _OSCTUNEbits 0 0 -> -> 15 `i `uc ]
-[; ;ADC main 25k22.c: 31: OpenADC(0b11111111 &
-[; ;ADC main 25k22.c: 32: 0b11111111 &
-[; ;ADC main 25k22.c: 33: 0b11110001,
-[; ;ADC main 25k22.c: 34: 0b10000011 &
-[; ;ADC main 25k22.c: 35: 0b01111111 &
-[; ;ADC main 25k22.c: 36: 0b11110111 &
-[; ;ADC main 25k22.c: 37: 0b11111100,
-[; ;ADC main 25k22.c: 38: 0b1110);
+[; ;ADC main 25k22.c: 38: LATC = 0x00;
 "38
+[e = _LATC -> -> 0 `i `uc ]
+[; ;ADC main 25k22.c: 41: ANSELC = 0x00;
+"41
+[e = _ANSELC -> -> 0 `i `uc ]
+[; ;ADC main 25k22.c: 42: TRISCbits.TRISC6 = 1;
+"42
+[e = . . _TRISCbits 0 6 -> -> 1 `i `uc ]
+[; ;ADC main 25k22.c: 43: TRISCbits.TRISC7 = 1;
+"43
+[e = . . _TRISCbits 0 7 -> -> 1 `i `uc ]
+[; ;ADC main 25k22.c: 44: OSCCONbits.IRCF = 0b111;
+"44
+[e = . . _OSCCONbits 0 3 -> -> 7 `i `uc ]
+[; ;ADC main 25k22.c: 45: OSCCONbits.SCS = 0b11;
+"45
+[e = . . _OSCCONbits 0 0 -> -> 3 `i `uc ]
+[; ;ADC main 25k22.c: 46: OSCTUNEbits.TUN = 0b01111;
+"46
+[e = . . _OSCTUNEbits 0 0 -> -> 15 `i `uc ]
+[; ;ADC main 25k22.c: 47: OpenADC(0b11111111 &
+[; ;ADC main 25k22.c: 48: 0b11111111 &
+[; ;ADC main 25k22.c: 49: 0b11110001,
+[; ;ADC main 25k22.c: 50: 0b10000011 &
+[; ;ADC main 25k22.c: 51: 0b01111111 &
+[; ;ADC main 25k22.c: 52: 0b11110111 &
+[; ;ADC main 25k22.c: 53: 0b11111100,
+[; ;ADC main 25k22.c: 54: 0b1110);
+"54
 [e ( _OpenADC (3 , , -> & & -> 255 `i -> 255 `i -> 241 `i `uc -> & & & -> 131 `i -> 127 `i -> 247 `i -> 252 `i `uc -> -> 14 `i `uc ]
-[; ;ADC main 25k22.c: 40: while(1){
-"40
+"57
+[v _baud_rate `l ~T0 @X0 1 a ]
+[; ;ADC main 25k22.c: 57: long baud_rate = (4000000 / 9600 / 16) - 1;
+[e = _baud_rate - / / -> 4000000 `l -> -> 9600 `i `l -> -> 16 `i `l -> -> 1 `i `l ]
+[; ;ADC main 25k22.c: 58: RCSTA1&=0b01001111,TXSTA1bits.TXEN=0,PIE1&=0b11001111;
+"58
+[e ; ; =& _RCSTA1 -> -> 79 `i `uc = . . _TXSTA1bits 0 5 -> -> 0 `i `uc =& _PIE1 -> -> 207 `i `uc ]
+[; ;ADC main 25k22.c: 59: Open1USART( 0b01111111 &
+[; ;ADC main 25k22.c: 60: 0b10111111 &
+[; ;ADC main 25k22.c: 61: 0b11111110 &
+[; ;ADC main 25k22.c: 62: 0b11111101 &
+[; ;ADC main 25k22.c: 63: 0b11111111 &
+[; ;ADC main 25k22.c: 64: 0b11101111,
+[; ;ADC main 25k22.c: 65: baud_rate );
+"65
+[e ( _Open1USART (2 , -> & & & & & -> 127 `i -> 191 `i -> 254 `i -> 253 `i -> 255 `i -> 239 `i `uc -> _baud_rate `ui ]
+[; ;ADC main 25k22.c: 67: while(1){
+"67
 [e :U 1150 ]
 {
-"42
 [v _i `s ~T0 @X0 1 a ]
-[; ;ADC main 25k22.c: 42: short i = 0;
+[; ;ADC main 25k22.c: 68: short i = 0;
+"68
 [e = _i -> -> 0 `i `s ]
-[; ;ADC main 25k22.c: 43: for (i = 0; i < 64; i++) {
-"43
+[; ;ADC main 25k22.c: 69: for (i = 0; i < 64; i++) {
+"69
 {
 [e = _i -> -> 0 `i `s ]
 [e $ < -> _i `i -> 64 `i 1152  ]
 [e $U 1153  ]
 [e :U 1152 ]
 {
-[; ;ADC main 25k22.c: 45: ConvertADC();
-"45
+[; ;ADC main 25k22.c: 71: ConvertADC();
+"71
 [e ( _ConvertADC ..  ]
-[; ;ADC main 25k22.c: 48: while(BusyADC());
-"48
+[; ;ADC main 25k22.c: 74: while(BusyADC());
+"74
 [e $U 1155  ]
 [e :U 1156 ]
 [e :U 1155 ]
 [e $ != -> ( _BusyADC ..  `i -> -> -> 0 `i `uc `i 1156  ]
 [e :U 1157 ]
-[; ;ADC main 25k22.c: 57: realNumbers[i] = ReadADC();
-"57
-[e = *U + &U _realNumbers * -> -> _i `us `ux -> -> # *U &U _realNumbers `ui `ux -> ( _ReadADC ..  `s ]
-[; ;ADC main 25k22.c: 59: imaginaryNumbers[i] = 0;
-"59
+[; ;ADC main 25k22.c: 80: adc_value = ReadADC() >> 2;
+"80
+[e = _adc_value -> >> ( _ReadADC ..  -> 2 `i `ui ]
+[; ;ADC main 25k22.c: 81: realNumbers[i] = adc_value;
+"81
+[e = *U + &U _realNumbers * -> -> _i `us `ux -> -> # *U &U _realNumbers `ui `ux -> _adc_value `s ]
+[; ;ADC main 25k22.c: 84: imaginaryNumbers[i] = 0;
+"84
 [e = *U + &U _imaginaryNumbers * -> -> _i `us `ux -> -> # *U &U _imaginaryNumbers `ui `ux -> -> 0 `i `s ]
-[; ;ADC main 25k22.c: 61: _delay((unsigned long)((7)*(20000000/4000000.0)));
-"61
-[e ( __delay (1 -> * -> -> 7 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"63
+[; ;ADC main 25k22.c: 86: _delay((unsigned long)((7)*(4000000/4000000.0)));
+"86
+[e ( __delay (1 -> * -> -> 7 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+"87
 }
-"43
+"69
 [e ++ _i -> -> 1 `i `s ]
 [e $ < -> _i `i -> 64 `i 1152  ]
 [e :U 1153 ]
-"63
+"87
 }
-[; ;ADC main 25k22.c: 63: }
-[; ;ADC main 25k22.c: 65: fix_fft(realNumbers, imaginaryNumbers, 6);
-"65
+[; ;ADC main 25k22.c: 87: }
+[; ;ADC main 25k22.c: 89: fix_fft(realNumbers, imaginaryNumbers, 6);
+"89
 [e ( _fix_fft (3 , , &U _realNumbers &U _imaginaryNumbers -> -> 6 `i `s ]
-"68
+"92
 [v _place `l ~T0 @X0 1 a ]
 [v _root `l ~T0 @X0 1 a ]
-[; ;ADC main 25k22.c: 68: long place, root;
-[; ;ADC main 25k22.c: 69: for (int k=0; k < 32; k++) {
-"69
+[; ;ADC main 25k22.c: 92: long place, root;
+[; ;ADC main 25k22.c: 93: for (int k=0; k < 32; k++) {
+"93
 {
 [v _k `i ~T0 @X0 1 a ]
 [e = _k -> 0 `i ]
@@ -9085,110 +9172,222 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 1159  ]
 [e :U 1158 ]
 {
-[; ;ADC main 25k22.c: 70: realNumbers[k] = (realNumbers[k] * realNumbers[k] +
-[; ;ADC main 25k22.c: 71: imaginaryNumbers[k] * imaginaryNumbers[k]);
-"71
+[; ;ADC main 25k22.c: 94: realNumbers[k] = (realNumbers[k] * realNumbers[k] +
+[; ;ADC main 25k22.c: 95: imaginaryNumbers[k] * imaginaryNumbers[k]);
+"95
 [e = *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux -> + * -> *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux `i -> *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux `i * -> *U + &U _imaginaryNumbers * -> -> _k `ui `ux -> -> # *U &U _imaginaryNumbers `ui `ux `i -> *U + &U _imaginaryNumbers * -> -> _k `ui `ux -> -> # *U &U _imaginaryNumbers `ui `ux `i `s ]
-[; ;ADC main 25k22.c: 73: place = 0x40000000;
-"73
+[; ;ADC main 25k22.c: 97: place = 0x40000000;
+"97
 [e = _place -> 1073741824 `l ]
-[; ;ADC main 25k22.c: 74: root = 0;
-"74
+[; ;ADC main 25k22.c: 98: root = 0;
+"98
 [e = _root -> -> 0 `i `l ]
-[; ;ADC main 25k22.c: 76: if (realNumbers[k] >= 0) {
-"76
+[; ;ADC main 25k22.c: 100: if (realNumbers[k] >= 0) {
+"100
 [e $ ! >= -> *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux `i -> 0 `i 1161  ]
 {
-[; ;ADC main 25k22.c: 78: while (place > realNumbers[k]) place = place >> 2;
-"78
+[; ;ADC main 25k22.c: 102: while (place > realNumbers[k]) place = place >> 2;
+"102
 [e $U 1162  ]
 [e :U 1163 ]
 [e = _place >> _place -> 2 `i ]
 [e :U 1162 ]
 [e $ > _place -> *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux `l 1163  ]
 [e :U 1164 ]
-[; ;ADC main 25k22.c: 80: while (place) {
-"80
+[; ;ADC main 25k22.c: 104: while (place) {
+"104
 [e $U 1165  ]
 [e :U 1166 ]
 {
-[; ;ADC main 25k22.c: 81: if (realNumbers[k] >= root + place) {
-"81
+[; ;ADC main 25k22.c: 105: if (realNumbers[k] >= root + place) {
+"105
 [e $ ! >= -> *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux `l + _root _place 1168  ]
 {
-[; ;ADC main 25k22.c: 82: realNumbers[k] -= root + place;
-"82
+[; ;ADC main 25k22.c: 106: realNumbers[k] -= root + place;
+"106
 [e =- *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux -> + _root _place `s ]
-[; ;ADC main 25k22.c: 83: root += place * 2;
-"83
+[; ;ADC main 25k22.c: 107: root += place * 2;
+"107
 [e =+ _root * _place -> -> 2 `i `l ]
-"84
+"108
 }
 [e :U 1168 ]
-[; ;ADC main 25k22.c: 84: }
-[; ;ADC main 25k22.c: 86: root = root >> 1;
-"86
+[; ;ADC main 25k22.c: 108: }
+[; ;ADC main 25k22.c: 110: root = root >> 1;
+"110
 [e = _root >> _root -> 1 `i ]
-[; ;ADC main 25k22.c: 87: place = place >> 2;
-"87
+[; ;ADC main 25k22.c: 111: place = place >> 2;
+"111
 [e = _place >> _place -> 2 `i ]
-"88
+"112
 }
 [e :U 1165 ]
-"80
+"104
 [e $ != _place -> -> 0 `i `l 1166  ]
 [e :U 1167 ]
-"89
+"113
 }
 [e :U 1161 ]
-[; ;ADC main 25k22.c: 88: }
-[; ;ADC main 25k22.c: 89: }
-[; ;ADC main 25k22.c: 91: realNumbers[k] = root;
-"91
+[; ;ADC main 25k22.c: 112: }
+[; ;ADC main 25k22.c: 113: }
+[; ;ADC main 25k22.c: 115: realNumbers[k] = root;
+"115
 [e = *U + &U _realNumbers * -> -> _k `ui `ux -> -> # *U &U _realNumbers `ui `ux -> _root `s ]
-"92
+"116
 }
-"69
+"93
 [e ++ _k -> 1 `i ]
 [e $ < _k -> 32 `i 1158  ]
 [e :U 1159 ]
-"92
+"116
 }
-[; ;ADC main 25k22.c: 92: }
-[; ;ADC main 25k22.c: 94: for(i = 0; i < 64; i++) {
-"94
+[; ;ADC main 25k22.c: 116: }
+[; ;ADC main 25k22.c: 118: sendIntArray(realNumbers, 64);
+"118
+[e ( _sendIntArray (2 , &U _realNumbers -> -> 64 `i `ui ]
+[; ;ADC main 25k22.c: 120: for(i = 0; i < 64; i++) {
+"120
 {
 [e = _i -> -> 0 `i `s ]
 [e $ < -> _i `i -> 64 `i 1169  ]
 [e $U 1170  ]
 [e :U 1169 ]
 {
-[; ;ADC main 25k22.c: 95: LATC = realNumbers[i];
-"95
+[; ;ADC main 25k22.c: 121: LATC = realNumbers[i];
+"121
 [e = _LATC -> *U + &U _realNumbers * -> -> _i `us `ux -> -> # *U &U _realNumbers `ui `ux `uc ]
-[; ;ADC main 25k22.c: 96: Delay10TCYx(5);
-"96
+[; ;ADC main 25k22.c: 122: Delay10TCYx(5);
+"122
 [e ( _Delay10TCYx (1 -> -> 5 `i `uc ]
-"97
+"123
 }
-"94
+"120
 [e ++ _i -> -> 1 `i `s ]
 [e $ < -> _i `i -> 64 `i 1169  ]
 [e :U 1170 ]
-"97
+"123
 }
-[; ;ADC main 25k22.c: 97: }
-[; ;ADC main 25k22.c: 99: Delay10TCYx(5);
-"99
-[e ( _Delay10TCYx (1 -> -> 5 `i `uc ]
-"104
+"124
 }
 [e :U 1149 ]
-"40
+"67
 [e $U 1150  ]
 [e :U 1151 ]
-[; ;ADC main 25k22.c: 104: }
-[; ;ADC main 25k22.c: 105: }
-"105
+[; ;ADC main 25k22.c: 123: }
+[; ;ADC main 25k22.c: 124: }
+[; ;ADC main 25k22.c: 125: }
+"125
 [e :UE 1148 ]
 }
+"128
+[v _sendCharArray `(v ~T0 @X0 1 ef2`*uc`ui ]
+{
+[; ;ADC main 25k22.c: 128: void sendCharArray(char *array, unsigned int size) {
+[e :U _sendCharArray ]
+[v _array `*uc ~T0 @X0 1 r1 ]
+[v _size `ui ~T0 @X0 1 r2 ]
+[f ]
+[; ;ADC main 25k22.c: 129: for(i = 0; i < size; i++) {
+"129
+{
+[e = _i -> 0 `i ]
+[e $U 1176  ]
+[e :U 1173 ]
+{
+[; ;ADC main 25k22.c: 130: sendChar(array[i]);
+"130
+[e ( _sendChar (1 *U + _array * -> _i `x -> -> # *U _array `i `x ]
+"131
+}
+"129
+[e ++ _i -> 1 `i ]
+[e :U 1176 ]
+[e $ < -> _i `ui _size 1173  ]
+[e :U 1174 ]
+"131
+}
+[; ;ADC main 25k22.c: 131: }
+[; ;ADC main 25k22.c: 132: }
+"132
+[e :UE 1172 ]
+}
+"135
+[v _sendString `(v ~T0 @X0 1 ef1`*uc ]
+{
+[; ;ADC main 25k22.c: 135: void sendString(char *string) {
+[e :U _sendString ]
+[v _string `*uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;ADC main 25k22.c: 136: while((!TXSTA1bits.TRMT));
+"136
+[e $U 1178  ]
+[e :U 1179 ]
+[e :U 1178 ]
+[e $ ! != -> . . _TXSTA1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1179  ]
+[e :U 1180 ]
+[; ;ADC main 25k22.c: 137: putrs1USART(string);
+"137
+[e ( _putrs1USART (1 -> _string `*Cuc ]
+[; ;ADC main 25k22.c: 138: }
+"138
+[e :UE 1177 ]
+}
+"141
+[v _sendChar `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;ADC main 25k22.c: 141: void sendChar(char character) {
+[e :U _sendChar ]
+[v _character `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;ADC main 25k22.c: 142: while((!TXSTA1bits.TRMT));
+"142
+[e $U 1182  ]
+[e :U 1183 ]
+[e :U 1182 ]
+[e $ ! != -> . . _TXSTA1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1183  ]
+[e :U 1184 ]
+[; ;ADC main 25k22.c: 143: Write1USART(character);
+"143
+[e ( _Write1USART (1 _character ]
+[; ;ADC main 25k22.c: 144: }
+"144
+[e :UE 1181 ]
+}
+"146
+[v _sendIntArray `(v ~T0 @X0 1 ef2`*s`ui ]
+{
+[; ;ADC main 25k22.c: 146: void sendIntArray(short *array, unsigned int size) {
+[e :U _sendIntArray ]
+[v _array `*s ~T0 @X0 1 r1 ]
+[v _size `ui ~T0 @X0 1 r2 ]
+[f ]
+[; ;ADC main 25k22.c: 147: for(i = 0; i < size; i++) {
+"147
+{
+[e = _i -> 0 `i ]
+[e $U 1189  ]
+[e :U 1186 ]
+{
+[; ;ADC main 25k22.c: 148: sprintf(data, "%d", array[i]);
+"148
+[e ( _sprintf (1 , (. , &U _data :s 1C -> *U + _array * -> _i `x -> -> # *U _array `i `x `i ]
+[; ;ADC main 25k22.c: 149: sendString(data);
+"149
+[e ( _sendString (1 &U _data ]
+"150
+}
+"147
+[e ++ _i -> 1 `i ]
+[e :U 1189 ]
+[e $ < -> _i `ui _size 1186  ]
+[e :U 1187 ]
+"150
+}
+[; ;ADC main 25k22.c: 150: }
+[; ;ADC main 25k22.c: 151: }
+"151
+[e :UE 1185 ]
+}
+[p f _sprintf 8388736 ]
+[a 1C 37 100 0 ]
+

@@ -1,12 +1,22 @@
-_fix_fft: CODE, 29298 0 1932
-_main: CODE, 28080 0 1218
-_BusyADC: CODE, 27816 0 12
-___lmul: CODE, 27994 0 86
-_ConvertADC: CODE, 27802 0 4
-__initialization: CODE, 27844 0 24
-_ReadADC: CODE, 27806 0 10
-_Sinewave: MEDIUMCONST, 31231 0 1536
-_Delay10TCYx: CODE, 27828 0 16
-_OpenADC: CODE, 27916 0 78
-___wmul: CODE, 27878 0 38
-Total: 4954
+_sendIntArray: CODE, 27516 0 94
+__stringdata: MEDIUMCONST, 32763 0 3
+_fix_fft: CODE, 29284 0 1932
+_dpowers: MEDIUMCONST, 32753 0 10
+_main: CODE, 27960 0 1324
+_BusyADC: CODE, 26934 0 12
+___lmul: CODE, 27342 0 86
+_sendString: CODE, 26980 0 18
+_ConvertADC: CODE, 26920 0 4
+__initialization: CODE, 27074 0 32
+___lwdiv: CODE, 27260 0 82
+_ReadADC: CODE, 26924 0 10
+_sprintf: CODE, 27610 0 350
+_Sinewave: MEDIUMCONST, 31217 0 1536
+_Write1USART: CODE, 26962 0 18
+_Delay10TCYx: CODE, 26946 0 16
+_putrs1USART: CODE, 27036 0 38
+___lwmod: CODE, 27116 0 66
+_OpenADC: CODE, 27182 0 78
+___wmul: CODE, 26998 0 38
+_Open1USART: CODE, 27428 0 88
+Total: 5835

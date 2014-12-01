@@ -10227,7 +10227,7 @@ void fix_fft(short fr[], short fi[], short m);
 
 # 10 "ADC main 25k22.c"
 #pragma config WDTEN = OFF
-#pragma config FOSC = INTIO67
+#pragma config FOSC = INTIO7
 #pragma config PLLCFG = OFF
 #pragma config PRICLKEN = OFF
 #pragma config PBADEN = ON
@@ -10237,6 +10237,14 @@ void fix_fft(short fr[], short fi[], short m);
 short imaginaryNumbers[64];
 short realNumbers[64];
 
+# 25
+char input;
+int i;
+char data[5];
+void sendString(char *);
+void sendChar(char);
+void sendCharArray(char *, unsigned int);
+void sendIntArray(short *, unsigned int);
 
 
 
@@ -10244,6 +10252,11 @@ void main(void) {
 unsigned int adc_value;
 TRISC = 0x00;
 LATC = 0x00;
+
+
+ANSELC = 0x00;
+TRISCbits.TRISC6 = 1;
+TRISCbits.TRISC7 = 1;
 OSCCONbits.IRCF = 0b111;
 OSCCONbits.SCS = 0b11;
 OSCTUNEbits.TUN = 0b01111;
@@ -10256,8 +10269,18 @@ OpenADC(0b11111111 &
 0b11111100,
 0b1110);
 
-while(1){
 
+long baud_rate = (4000000 / 9600 / 16) - 1;
+RCSTA1&=0b01001111,TXSTA1bits.TXEN=0,PIE1&=0b11001111;
+Open1USART( 0b01111111 &
+0b10111111 &
+0b11111110 &
+0b11111101 &
+0b11111111 &
+0b11101111,
+baud_rate );
+
+while(1){
 short i = 0;
 for (i = 0; i < 64; i++) {
 
@@ -10266,13 +10289,14 @@ ConvertADC();
 
 while(BusyADC());
 
-# 57
-realNumbers[i] = ReadADC();
+# 80
+adc_value = ReadADC() >> 2;
+realNumbers[i] = adc_value;
+
 
 imaginaryNumbers[i] = 0;
 
-_delay((unsigned long)((7)*(20000000/4000000.0)));
-
+_delay((unsigned long)((7)*(4000000/4000000.0)));
 }
 
 fix_fft(realNumbers, imaginaryNumbers, 6);
@@ -10304,15 +10328,37 @@ place = place >> 2;
 realNumbers[k] = root;
 }
 
+sendIntArray(realNumbers, 64);
+
 for(i = 0; i < 64; i++) {
 LATC = realNumbers[i];
 Delay10TCYx(5);
 }
-
-Delay10TCYx(5);
-
-
+}
+}
 
 
+void sendCharArray(char *array, unsigned int size) {
+for(i = 0; i < size; i++) {
+sendChar(array[i]);
+}
+}
+
+
+void sendString(char *string) {
+while((!TXSTA1bits.TRMT));
+putrs1USART(string);
+}
+
+
+void sendChar(char character) {
+while((!TXSTA1bits.TRMT));
+Write1USART(character);
+}
+
+void sendIntArray(short *array, unsigned int size) {
+for(i = 0; i < size; i++) {
+sprintf(data, "%d", array[i]);
+sendString(data);
 }
 }
