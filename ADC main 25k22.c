@@ -9,12 +9,19 @@
 #include "pps.h"
 
 /* CONFIGURATION */
+#pragma config FNOSC = FRC
+#pragma config FWDTEN = OFF
+#pragma config POSCMD = NONE
+
+
+/*
 #pragma config WDTEN = OFF
-#pragma config FOSC = INTIO7
+#pragma config FOSC = INTIO67
 #pragma config PLLCFG = OFF
 #pragma config PRICLKEN = OFF
 #pragma config PBADEN = ON
 #pragma config LVP = OFF
+*/
 
 // FFT
 short imaginaryNumbers[64];
@@ -34,26 +41,51 @@ void sendIntArray(short *, unsigned int);
 
 // END RS 232
 
-void main(void) {
+int main(void) {
+    //unsigned int adc_value;
+    //TRISC = 0x00;
+    //LATC  = 0x00;
+
+
     unsigned int adc_value;
-    TRISC = 0x00;
-    LATC  = 0x00;
+    unsigned int config1;
+    unsigned int config2;
+    unsigned int config3;
+    unsigned int config4;
+    unsigned int configport_h;
+    unsigned int configport_l;
+    unsigned int configscan_h;
+    unsigned int configscan_l;
+    //TRISC = 0x00;
+    //LATC  = 0x00;
+    OSCCONbits.COSC = 0b000;
+    OSCCONbits.NOSC  = 0b000;
+    //OSCCONbits.CLKLOCK = 0b1;
+    CLKDIVbits.FRCDIV = 0b000;
 
+    //OSCTUNbits.TUN = 0b010111;
 
-    ANSELC           = 0x00;
-    TRISCbits.TRISC6 = 1;
-    TRISCbits.TRISC7 = 1;
-    OSCCONbits.IRCF = 0b111;
-    OSCCONbits.SCS  = 0b11;
-    OSCTUNEbits.TUN = 0b01111;
-    OpenADC(ADC_FOSC_RC &
-            ADC_RIGHT_JUST &
-            ADC_0_TAD,
-            ADC_CH0 &
-            ADC_INT_OFF &
-            ADC_REF_VDD_VREFPLUS &
-            ADC_REF_VDD_VSS,
-            0b1110);
+config1 = ADC_MODULE_ON & ADC_IDLE_STOP &
+ADC_ADDMABM_ORDER & ADC_AD12B_12BIT &
+ADC_FORMAT_INTG & ADC_CLK_AUTO &
+ADC_AUTO_SAMPLING_ON & ADC_MULTIPLE ;
+
+config2 = ADC_VREF_AVDD_AVSS & ADC_SCAN_ON &
+ADC_SELECT_CHAN_0 & ADC_DMA_ADD_INC_1 ;
+
+config3 =  ADC_CONV_CLK_SYSTEM & ADC_SAMPLE_TIME_3 &
+ADC_CONV_CLK_2Tcy;
+
+config4 = ADC_DMA_BUF_LOC_32;
+
+configport_h = ENABLE_ALL_DIG_16_31;
+
+configport_l = ENABLE_AN0_ANA;
+
+configscan_l = SCAN_ALL_0_15;
+configscan_h = SCAN_ALL_16_31;
+
+OpenADC1(config1,config2,config3,config4,configport_l,configport_h, configscan_h,configscan_l);
 
     // Sets the TX and RX pins on the chip
     PPSUnLock;
@@ -76,15 +108,15 @@ void main(void) {
         short i = 0;
         for (i = 0; i < 64; i++) {
 
-            ConvertADC();
+            ConvertADC1();
 
             // Wait for the ADC conversion to complete
-            while(BusyADC());
+            while(BusyADC1());
 
             // Get the 10-bit ADC result and adjust the virtual ground of 2.5V
             // back to 0Vs to make the input wave centered correctly around 0
             // (i.e. -512 to +512)
-            adc_value = ReadADC() >> 2;
+            adc_value = ReadADC1(0) >> 2;
             realNumbers[i] = adc_value;
             
             // Set the imaginary number to zero
@@ -127,6 +159,7 @@ void main(void) {
             Delay10TCYx(5);
         }
     }
+    return 0;
 }
 
 // RS 232
