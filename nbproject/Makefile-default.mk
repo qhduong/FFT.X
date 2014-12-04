@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED="ADC main 25k22.c" fft.c
+SOURCEFILES_QUOTED_IF_SPACED=fft.c "ADC main 16bit.c"
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED="${OBJECTDIR}/ADC main 25k22.o" ${OBJECTDIR}/fft.o
-POSSIBLE_DEPFILES="${OBJECTDIR}/ADC main 25k22.o.d" ${OBJECTDIR}/fft.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/fft.o "${OBJECTDIR}/ADC main 16bit.o"
+POSSIBLE_DEPFILES=${OBJECTDIR}/fft.o.d "${OBJECTDIR}/ADC main 16bit.o.d"
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/ADC\ main\ 25k22.o ${OBJECTDIR}/fft.o
+OBJECTFILES=${OBJECTDIR}/fft.o ${OBJECTDIR}/ADC\ main\ 16bit.o
 
 # Source Files
-SOURCEFILES=ADC main 25k22.c fft.c
+SOURCEFILES=fft.c ADC main 16bit.c
 
 
 CFLAGS=
@@ -82,13 +82,6 @@ MP_LINKER_FILE_OPTION=,--script=p24HJ128GP202.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/ADC\ main\ 25k22.o: ADC\ main\ 25k22.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/ADC\ main\ 25k22.o.d 
-	@${RM} "${OBJECTDIR}/ADC main 25k22.o" 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  "ADC main 25k22.c"  -o "${OBJECTDIR}/ADC main 25k22.o"  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ADC main 25k22.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/ADC main 25k22.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/fft.o: fft.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/fft.o.d 
@@ -96,20 +89,27 @@ ${OBJECTDIR}/fft.o: fft.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  fft.c  -o ${OBJECTDIR}/fft.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/fft.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/fft.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-else
-${OBJECTDIR}/ADC\ main\ 25k22.o: ADC\ main\ 25k22.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/ADC\ main\ 16bit.o: ADC\ main\ 16bit.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/ADC\ main\ 25k22.o.d 
-	@${RM} "${OBJECTDIR}/ADC main 25k22.o" 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  "ADC main 25k22.c"  -o "${OBJECTDIR}/ADC main 25k22.o"  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ADC main 25k22.o.d"        -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/ADC main 25k22.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	@${RM} ${OBJECTDIR}/ADC\ main\ 16bit.o.d 
+	@${RM} "${OBJECTDIR}/ADC main 16bit.o" 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  "ADC main 16bit.c"  -o "${OBJECTDIR}/ADC main 16bit.o"  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ADC main 16bit.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/ADC main 16bit.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+else
 ${OBJECTDIR}/fft.o: fft.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/fft.o.d 
 	@${RM} ${OBJECTDIR}/fft.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  fft.c  -o ${OBJECTDIR}/fft.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/fft.o.d"        -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/fft.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/ADC\ main\ 16bit.o: ADC\ main\ 16bit.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/ADC\ main\ 16bit.o.d 
+	@${RM} "${OBJECTDIR}/ADC main 16bit.o" 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  "ADC main 16bit.c"  -o "${OBJECTDIR}/ADC main 16bit.o"  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ADC main 16bit.o.d"        -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/ADC main 16bit.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

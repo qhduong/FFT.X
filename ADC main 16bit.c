@@ -4,9 +4,12 @@
 #include <timer.h>
 #include <adc.h>
 #include <delay.h>
+#include <uart.h>
+#include <pps.h>
+#include <xc.h>
+#include <libpic30.h>
 #include "fft.h"
-#include "uart.h"
-#include "pps.h"
+
 
 /* CONFIGURATION */
 #pragma config FNOSC = FRC
@@ -46,7 +49,7 @@ int main(void) {
     //TRISC = 0x00;
     //LATC  = 0x00;
 
-
+    int k;          //for fft loop
     unsigned int adc_value;
     unsigned int config1;
     unsigned int config2;
@@ -65,23 +68,17 @@ int main(void) {
 
     //OSCTUNbits.TUN = 0b010111;
 
-config1 = ADC_MODULE_ON & ADC_IDLE_STOP &
-ADC_ADDMABM_ORDER & ADC_AD12B_12BIT &
-ADC_FORMAT_INTG & ADC_CLK_AUTO &
-ADC_AUTO_SAMPLING_ON & ADC_MULTIPLE ;
-
-config2 = ADC_VREF_AVDD_AVSS & ADC_SCAN_ON &
-ADC_SELECT_CHAN_0 & ADC_DMA_ADD_INC_1 ;
-
-config3 =  ADC_CONV_CLK_SYSTEM & ADC_SAMPLE_TIME_3 &
-ADC_CONV_CLK_2Tcy;
-
-config4 = ADC_DMA_BUF_LOC_32;
-
+config1 =   ADC_MODULE_ON & ADC_IDLE_STOP &
+            ADC_ADDMABM_ORDER & ADC_AD12B_12BIT &
+            ADC_FORMAT_INTG & ADC_CLK_AUTO &
+            ADC_AUTO_SAMPLING_ON & ADC_MULTIPLE ;
+config2 =   ADC_VREF_AVDD_AVSS & ADC_SCAN_ON &
+            ADC_SELECT_CHAN_0 & ADC_DMA_ADD_INC_1 ;
+config3 =   ADC_CONV_CLK_SYSTEM & ADC_SAMPLE_TIME_3 &
+            ADC_CONV_CLK_2Tcy;
+config4 =   ADC_DMA_BUF_LOC_32;
 configport_h = ENABLE_ALL_DIG_16_31;
-
 configport_l = ENABLE_AN0_ANA;
-
 configscan_l = SCAN_ALL_0_15;
 configscan_h = SCAN_ALL_16_31;
 
@@ -89,8 +86,8 @@ OpenADC1(config1,config2,config3,config4,configport_l,configport_h, configscan_h
 
     // Sets the TX and RX pins on the chip
     PPSUnLock;
-    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP7);   // Tx on RP7 (Pin 16)
-    PPSInput(PPS_U1RX, PPS_RP8);                  // Rx on RP8 (Pin 17)
+    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP7);        // Tx on RP7 (Pin 16)
+    PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RP8);           // Rx on RP8 (Pin 17)
     PPSLock;
 
     // IMPORTANT: Set Baud Rate on Terminal to 9600
@@ -103,12 +100,17 @@ OpenADC1(config1,config2,config3,config4,configport_l,configport_h, configscan_h
                 UART_1STOPBIT,
                 UART_TX_INT_DIS,
                 baud_rate);
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0;
+
 
     while(1){
         short i = 0;
+        LATAbits.LATA3 = 1;
         for (i = 0; i < 64; i++) {
 
             ConvertADC1();
+            
 
             // Wait for the ADC conversion to complete
             while(BusyADC1());
@@ -127,7 +129,7 @@ OpenADC1(config1,config2,config3,config4,configport_l,configport_h, configscan_h
 
 
         long place, root;
-        for (int k=0; k < 32; k++) {
+        for (k=0; k < 32; k++) {
             realNumbers[k] = (realNumbers[k] * realNumbers[k] +
                              imaginaryNumbers[k] * imaginaryNumbers[k]);
 
@@ -151,12 +153,12 @@ OpenADC1(config1,config2,config3,config4,configport_l,configport_h, configscan_h
 
             realNumbers[k] = root;
         }
-
+        LATAbits.LATA3= 0;
         sendIntArray(realNumbers, 64);
 
         for(i = 0; i < 64; i++) {
-            LATC = realNumbers[i];
-            Delay10TCYx(5);
+//            LATC = realNumbers[i];
+            __delay32(50);
         }
     }
     return 0;
@@ -171,19 +173,24 @@ void sendCharArray(char *array, unsigned int size) {
 
 // Sends a string to terminal when ready to send
 void sendString(char *string) {
-    while(BusyUART1());
-    putsUART1(string);
+    char *temp = string;
+    while(*temp)
+    {
+        sendChar(*temp++);
+    }
 }
 
 // Sends a character to terminal when ready to send
 void sendChar(char character) {
     while(BusyUART1());
-    putsUART1(character);
+    putcUART1(character);
+    __delay32(12);
 }
 
 void sendIntArray(short *array, unsigned int size) {
     for(i = 0; i < size; i++) {
-        sprintf(data, "%d", array[i]);
-        sendString(data);
+        //sprintf(data, "%d", array[i]);
+        putcUART1(array[i]);
+        //sendChar(67);
     }
 }
